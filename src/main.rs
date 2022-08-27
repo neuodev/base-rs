@@ -21,11 +21,21 @@ fn main() {
     println!("[base 10] {:?}", base_10);
     println!("[base 16] {:?}", base_16);
 
-    let res = base_2.from_b10(21);
-    println!("[21] {:?}", res);
-    let into = base_2.into_b10(&res[..]);
-
-    println!("{}", into);
+    // b2 🔛 b10
+    let _10b2 = base_2.from_b10(10);
+    println!("bin(10) -> {}", _10b2.join(""));
+    let _10b10 = base_2.into_b10(&_10b2);
+    println!("b10({:?}) -> {}", _10b2, _10b10);
+    // b10 🔛 b16
+    let _175_b16 = base_16.from_b10(175);
+    println!("b16(175) -> 0x{}", _175_b16.join(""));
+    let _175_b10 = base_10.from_base(&_175_b16, &base_16);
+    println!("b10({:?}) -> {}", _175_b16, _175_b10.join(""));
+    // b2 🔛 b16
+    let _175_b16 = base_16.from_base(&_10b2, &base_2);
+    println!("b16({:?}) -> 0x{}", _10b2, _175_b16.join(""));
+    let _175_b12 = base_2.from_base(&_175_b16, &base_16);
+    println!("b2({:?}) -> {}", _175_b16, _175_b12.join(""));
 }
 
 /// Convert base 2 to base 16 or base 10
@@ -77,23 +87,28 @@ impl<'a> Base<'a> {
         self.sys.iter().enumerate().for_each(|(idx, &num)| {
             map.insert(num, idx);
         });
-
-        println!("Nums Map: {:#?}", map);
-
         let mut res = 0;
         num.iter().rev().enumerate().for_each(|(idx, &n)| {
             let num = map[n];
-            println!(
-                "{} x {}^{} = {}",
-                num,
-                self.base,
-                idx,
-                num * self.base.pow(idx as u32)
-            );
             res += num * self.base.pow(idx as u32)
         });
 
         res
+    }
+
+    fn from_base(&self, num: &[&str], base: &Base) -> Vec<&str> {
+        let mut map = HashMap::new();
+        base.sys.iter().enumerate().for_each(|(idx, &num)| {
+            map.insert(num, idx);
+        });
+        let mut base_10_value = 0;
+
+        num.iter().rev().enumerate().for_each(|(idx, &d)| {
+            let num = map.get(d).expect("Invalid encoding").clone();
+            base_10_value += num * base.base.pow(idx as u32);
+        });
+
+        self.from_b10(base_10_value)
     }
 }
 
