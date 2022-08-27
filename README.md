@@ -1,4 +1,4 @@
-# Base
+# Bases
 
 Simple tool to conver from a give **base** into any other **base**. **_You can even create your own base_**
 
