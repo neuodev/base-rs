@@ -1,6 +1,6 @@
 # Bases
 
-Simple tool to conver from a give **base** into any other **base**. **_You can even create your own base_**
+Simple tool to convert from a give **base** into any other **base**. **_You can even create your own base_**
 
 1.  From base 2 to/from base 10
 2.  From base 2 to/from base 16
