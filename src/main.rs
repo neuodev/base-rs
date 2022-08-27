@@ -1,8 +1,9 @@
-// b2 🔛 b10
-// b2 🔛 b16
-// b10 🔛 b16
-
-use std::{collections::HashMap, ops::Index};
+///! Simple tool to conver from a give base into any other base
+///! For example
+/// 1. From base 2 to/from base 10
+/// 2. From base 2 to/from base 16
+/// 3. From base 16 to base base 10
+use std::collections::HashMap;
 
 use num::ToPrimitive;
 
