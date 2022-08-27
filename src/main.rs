@@ -24,7 +24,7 @@ fn main() {
 
     // b2 🔛 b10
     let _10b2 = base_2.from_b10(10);
-    println!("bin(10) -> {}", _10b2.join(""));
+    println!("b2(10) -> {}", _10b2.join(""));
     let _10b10 = base_2.into_b10(&_10b2);
     println!("b10({:?}) -> {}", _10b2, _10b10);
     // b10 🔛 b16
