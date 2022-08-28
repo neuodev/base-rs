@@ -3,6 +3,7 @@
 /// 1. From base 2 to/from base 10
 /// 2. From base 2 to/from base 16
 /// 3. From base 16 to base base 10
+#[allow(dead_code, unused)]
 use std::collections::HashMap;
 
 use num::ToPrimitive;
@@ -43,27 +44,27 @@ fn main() {
 #[derive(Debug)]
 struct Base<'a> {
     base: usize,
-    sys: Vec<&'a str>,
+    digits: Vec<&'a str>,
 }
 
 impl<'a> Base<'a> {
-    fn new(sys: Vec<&'a str>) -> Self {
+    fn new(digits: Vec<&'a str>) -> Self {
         Self {
-            base: sys.len(),
-            sys,
+            base: digits.len(),
+            digits,
         }
     }
 
     fn new_base(base: CommonBase) -> Self {
-        let sys = match base {
+        let digits = match base {
             CommonBase::Base2 => BASE_2,
             CommonBase::Base10 => BASE_10,
             CommonBase::Base16 => BASE_16,
         };
 
         Self {
-            base: sys.len(),
-            sys: sys.to_vec(),
+            base: digits.len(),
+            digits: digits.to_vec(),
         }
     }
 
@@ -72,7 +73,7 @@ impl<'a> Base<'a> {
         let mut curr_num = num.to_usize().unwrap();
         loop {
             let rem = curr_num % self.base;
-            res.push(self.sys[rem]);
+            res.push(self.digits[rem]);
             curr_num = curr_num / self.base;
 
             if curr_num == 0 {
@@ -85,7 +86,7 @@ impl<'a> Base<'a> {
 
     fn into_b10(&self, num: &[&str]) -> usize {
         let mut map = HashMap::new();
-        self.sys.iter().enumerate().for_each(|(idx, &num)| {
+        self.digits.iter().enumerate().for_each(|(idx, &num)| {
             map.insert(num, idx);
         });
         let mut res = 0;
@@ -99,7 +100,7 @@ impl<'a> Base<'a> {
 
     fn from_base(&self, num: &[&str], base: &Base) -> Vec<&str> {
         let mut map = HashMap::new();
-        base.sys.iter().enumerate().for_each(|(idx, &num)| {
+        base.digits.iter().enumerate().for_each(|(idx, &num)| {
             map.insert(num, idx);
         });
         let mut base_10_value = 0;
